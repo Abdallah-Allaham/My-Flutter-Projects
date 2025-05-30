@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Simple Image Classifier')),
+      appBar: AppBar(title: const Text('Image Classifier')),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
