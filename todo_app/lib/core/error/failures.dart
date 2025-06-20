@@ -13,6 +13,8 @@ class ServerFailure extends Failure {}
 
 class CacheFailure extends Failure {}
 
+class NoConnectionFailure extends Failure {}
+
 class ServerException implements Exception {}
 
 class CacheException implements Exception {}
