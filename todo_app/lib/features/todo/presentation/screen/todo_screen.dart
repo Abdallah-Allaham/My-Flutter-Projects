@@ -46,7 +46,21 @@ class TodoScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final todo = state.todos[index];
                       return ListTile(
-                        title: Text(todo.title),
+                        leading: Checkbox(
+                          value: todo.isCompleted,
+                          onChanged: (value) {
+                            context.read<TodoCubit>().toggleTodoCompletion(
+                              id: todo.id,
+                              isCompleted: value ?? false,
+                            );
+                          },
+                        ),
+                        title: Text(
+                          todo.title,
+                          style: TextStyle(
+                            decoration: todo.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                          ),
+                        ),
                         trailing: IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
@@ -66,7 +80,10 @@ class TodoScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<TodoCubit>().getTodos(),
+        onPressed: () {
+          print('refresh');
+          context.read<TodoCubit>().getTodos();
+        },
         child: Icon(Icons.refresh),
       ),
     );

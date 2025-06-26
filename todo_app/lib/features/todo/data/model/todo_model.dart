@@ -1,8 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
+part 'todo_model.g.dart';
+
+@HiveType(typeId: 0)
 class TodoModel extends Equatable{
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String title;
+  @HiveField(2)
   final bool isCompleted;
 
   const TodoModel({

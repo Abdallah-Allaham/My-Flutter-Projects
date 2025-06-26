@@ -4,4 +4,5 @@ abstract class TodoRepo {
   Future<List<Todo>> getTodos();
   Future<void> addTodo({required Todo todo});
   Future<void> deleteTodo({required String id});
+  Future<void> updateTodo({required Todo todo});
 }

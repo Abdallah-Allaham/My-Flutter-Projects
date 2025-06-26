@@ -6,6 +6,7 @@ import 'features/todo/domain/repo/todo_repo.dart';
 import 'features/todo/domain/usecase/add_todo_usecase.dart';
 import 'features/todo/domain/usecase/delete_todo_usecase.dart';
 import 'features/todo/domain/usecase/get_todos_usecase.dart';
+import 'features/todo/domain/usecase/update_todo_usecase.dart';
 import 'features/todo/presentation/cubit/todo_cubit.dart';
 
 final sl = GetIt.instance;
@@ -25,6 +26,7 @@ void init() {
   sl.registerLazySingleton(() => GetTodosUsecase(todoRepo: sl()));
   sl.registerLazySingleton(() => AddTodoUsecase(todoRepo: sl()));
   sl.registerLazySingleton(() => DeleteTodoUsecase(todoRepo: sl()));
+  sl.registerLazySingleton(() => UpdateTodoUsecase(todoRepo: sl()));
 
   // Cubit
   sl.registerFactory(
@@ -32,6 +34,7 @@ void init() {
       getTodosUsecase: sl(),
       addTodoUsecase: sl(),
       deleteTodoUsecase: sl(),
+      updateTodoUsecase: sl(),
     ),
   );
 }

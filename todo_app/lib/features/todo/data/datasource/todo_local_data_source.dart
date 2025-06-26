@@ -1,27 +1,35 @@
+import 'package:hive/hive.dart';
 import 'package:todo_app/features/todo/data/model/todo_model.dart';
 
 abstract class TodoLocalDataSource {
   Future<List<TodoModel>> getTodos();
   Future<void> addTodo({required TodoModel todoModel});
   Future<void> deleteTodo({required String id});
+  Future<void> updateTodo({required TodoModel todoModel});
 }
 
 class TodoLocalDataSourceImpl implements TodoLocalDataSource{
-  List<TodoModel> _todos = [];
+  final Box<TodoModel> _todoBox = Hive.box<TodoModel>('todos');
 
   @override
   Future<List<TodoModel>> getTodos() async{
-    return _todos;
+    return _todoBox.values.toList();
   }
 
   @override
   Future<void> addTodo({required TodoModel todoModel}) async {
-    _todos.add(todoModel);
+    await _todoBox.put(todoModel.id, todoModel);
   }
 
   @override
   Future<void> deleteTodo({required String id}) async{
-    _todos.removeWhere((todo) => todo.id == id);
+    await _todoBox.delete(id);
   }
+
+  @override
+  Future<void> updateTodo({required TodoModel todoModel}) async{
+    await _todoBox.put(todoModel.id, todoModel);
+  }
+
 
 }
