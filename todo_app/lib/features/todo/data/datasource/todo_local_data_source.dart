@@ -1,50 +1,27 @@
-import 'dart:convert';
-
-import 'package:dartz/dartz.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../../core/error/failures.dart';
-import '../model/todo_model.dart';
-
-const CACHE_TODOS = 'CACHED_TODOS';
+import 'package:todo_app/features/todo/data/model/todo_model.dart';
 
 abstract class TodoLocalDataSource {
-  Future<List<TodoModel>> getCachedTodos();
-
-  Future<void> cacheTodos(List<TodoModel> todos);
-
-  Future<Unit> clearCache();
+  Future<List<TodoModel>> getTodos();
+  Future<void> addTodo({required TodoModel todoModel});
+  Future<void> deleteTodo({required String id});
 }
 
-class TodoLocalDataSourceImpl implements TodoLocalDataSource {
-  final SharedPreferences sharedPreferences;
-
-  TodoLocalDataSourceImpl({required this.sharedPreferences});
+class TodoLocalDataSourceImpl implements TodoLocalDataSource{
+  List<TodoModel> _todos = [];
 
   @override
-  Future<List<TodoModel>> getCachedTodos() {
-    final jsonString = sharedPreferences.getString(CACHE_TODOS);
-    if (jsonString != null) {
-      final List<dynamic> data = json.decode(jsonString);
-      return Future.value(
-        data.map((json) => TodoModel.fromJson(json)).toList(),
-      );
-    } else {
-      throw CacheException();
-    }
+  Future<List<TodoModel>> getTodos() async{
+    return _todos;
   }
 
   @override
-  Future<void> cacheTodos(List<TodoModel> todos) {
-    return sharedPreferences.setString(
-      CACHE_TODOS,
-      json.encode(todos.map((todo) => todo.toJson()).toList()),
-    );
+  Future<void> addTodo({required TodoModel todoModel}) async {
+    _todos.add(todoModel);
   }
 
   @override
-  Future<Unit> clearCache() {
-    sharedPreferences.remove(CACHE_TODOS);
-    return Future.value(unit);
+  Future<void> deleteTodo({required String id}) async{
+    _todos.removeWhere((todo) => todo.id == id);
   }
+
 }

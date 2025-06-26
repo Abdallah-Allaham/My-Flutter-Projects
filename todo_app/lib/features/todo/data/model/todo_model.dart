@@ -1,34 +1,28 @@
-import 'package:todo_app/features/todo/domain/entity/todo.dart';
+import 'package:equatable/equatable.dart';
 
-class TodoModel extends Todo {
+class TodoModel extends Equatable{
+  final String id;
+  final String title;
+  final bool isCompleted;
+
   const TodoModel({
-    required super.id,
-    required super.title,
-    required super.description,
-    required super.isCompleted,
-    super.createdAt,
-    super.updatedAt,
+    required this.id,
+    required this.title,
+    this.isCompleted = false,
   });
 
-  factory TodoModel.fromJson(Map<String, dynamic> json) {
-    return TodoModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      isCompleted: json['isCompleted'],
-      createdAt: json['createdAt'] != null? DateTime.parse(json['createdAt']) : null ,
-      updatedAt: json['updatedAt'] != null? DateTime.parse(json['updatedAt']) : null,
-    );
-  }
+  factory TodoModel.fromJson({required Map<String, dynamic> json}) => TodoModel(
+    id: json['id'],
+    title: json['title'],
+    isCompleted: json['isCompleted'],
+  );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'isCompleted': isCompleted,
-      'createdAt': createdAt?.toIso8601String(),
-      'updatedAt': updatedAt?.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'isCompleted': isCompleted,
+  };
+
+  @override
+  List<Object?> get props => [id, title, isCompleted];
 }
