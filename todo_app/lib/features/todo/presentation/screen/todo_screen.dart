@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../cubit/todo_cubit.dart';
 import '../cubit/todo_state.dart';
 
@@ -20,7 +19,16 @@ class TodoScreen extends StatelessWidget {
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: InputDecoration(hintText: 'Enter a task'),
+                    decoration: InputDecoration(
+                      hintText: 'Enter a task',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      _controller.text = value;
+                      _controller.selection = TextSelection.fromPosition(
+                        TextPosition(offset: _controller.text.length),
+                      );
+                    },
                   ),
                 ),
                 IconButton(
@@ -46,6 +54,7 @@ class TodoScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final todo = state.todos[index];
                       return ListTile(
+                        key: ValueKey(todo.id), // لتحسين الأداء
                         leading: Checkbox(
                           value: todo.isCompleted,
                           onChanged: (value) {
@@ -58,14 +67,27 @@ class TodoScreen extends StatelessWidget {
                         title: Text(
                           todo.title,
                           style: TextStyle(
-                            decoration: todo.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
+                            decoration: todo.isCompleted
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
                           ),
                         ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            context.read<TodoCubit>().deleteTodo(id: todo.id);
-                          },
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {
+                                _showEditDialog(context, todo.id, todo.title);
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () {
+                                context.read<TodoCubit>().deleteTodo(id: todo.id);
+                              },
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -86,6 +108,56 @@ class TodoScreen extends StatelessWidget {
         },
         child: Icon(Icons.refresh),
       ),
+    );
+  }
+
+  void _showEditDialog(BuildContext context, String id, String currentTitle) {
+    final editController = TextEditingController(text: currentTitle);
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return Builder(
+          builder: (dialogContext) {
+            return AlertDialog(
+              title: Text('Edit Todo'),
+              content: TextField(
+                controller: editController,
+                decoration: InputDecoration(
+                  hintText: 'Enter new title',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (editController.text.isNotEmpty) {
+                      dialogContext.read<TodoCubit>().updateTodo(
+                        id: id,
+                        newTitle: editController.text,
+                      );
+                      Navigator.of(dialogContext).pop();
+                    } else {
+                      ScaffoldMessenger.of(dialogContext).showSnackBar(
+                        SnackBar(
+                          content: Text('Title cannot be empty'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text('Save'),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

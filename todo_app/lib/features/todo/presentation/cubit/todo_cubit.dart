@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/features/todo/presentation/cubit/todo_state.dart';
-
 import '../../domain/entity/todo.dart';
 import '../../domain/usecase/add_todo_usecase.dart';
 import '../../domain/usecase/delete_todo_usecase.dart';
@@ -54,26 +53,52 @@ class TodoCubit extends Cubit<TodoState> {
     required bool isCompleted,
   }) async {
     try {
-      final currentStatue = state;
-      if (currentStatue is TodoLoaded) {
-        final updatedTodo =
-            currentStatue.todos.map((todo) {
-              if (todo.id == id) {
-                return Todo(
-                  id: todo.id,
-                  title: todo.title,
-                  isCompleted: isCompleted,
-                );
-              }
-              return todo;
-            }).toList();
+      final currentState = state;
+      if (currentState is TodoLoaded) {
+        final updatedTodos = currentState.todos.map((todo) {
+          if (todo.id == id) {
+            return Todo(
+              id: todo.id,
+              title: todo.title,
+              isCompleted: isCompleted,
+            );
+          }
+          return todo;
+        }).toList();
         await updateTodoUsecase.call(
-          todo: updatedTodo.firstWhere((todo) => todo.id == id),
+          todo: updatedTodos.firstWhere((todo) => todo.id == id),
         );
         await getTodos();
       }
     } catch (e) {
       emit(TodoError(message: "Failed to toggle todo completion"));
+    }
+  }
+
+  Future<void> updateTodo({required String id, required String newTitle}) async {
+    try {
+      print('Editing todo with id: $id, new title: $newTitle');
+      final currentState = state;
+      if (currentState is TodoLoaded) {
+        final updatedTodos = currentState.todos.map((todo) {
+          if (todo.id == id) {
+            return Todo(
+              id: todo.id,
+              title: newTitle,
+              isCompleted: todo.isCompleted,
+            );
+          }
+          return todo;
+        }).toList();
+        await updateTodoUsecase.call(
+          todo: updatedTodos.firstWhere((todo) => todo.id == id),
+        );
+        print('Todo edited, fetching todos...');
+        await getTodos(); // إضافة هذا السطر لتحديث الـ UI
+      }
+    } catch (e) {
+      print('Error editing todo: $e');
+      emit(TodoError(message: "Failed to update todo"));
     }
   }
 }

@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Todo App',
-      home: BlocProvider(
-        create: (_) =>di.sl<TodoCubit>()..getTodos(),
-        child: TodoScreen(),
+    return BlocProvider(
+      create: (_) => di.sl<TodoCubit>()..getTodos(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Todo App',
+        home: TodoScreen(),
       ),
     );
   }
