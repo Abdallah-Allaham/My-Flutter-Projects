@@ -10,27 +10,26 @@ class OnboardingScreen extends StatelessWidget {
       child: Scaffold(
         body: Container(
           padding: const EdgeInsets.all(24.0),
-          width: double.infinity,
-          height: double.infinity,
+          width: .infinity,
+          height: .infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/image_onboarding.png'),
-              fit: BoxFit.cover,
+              fit: .cover,
             ),
           ),
-          alignment: Alignment.center,
+          alignment: .center,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: .end,
             children: [
               Text(
                 'Fall in Love with Coffee in Blissful Delight!',
                 style: TextStyle(
                   fontSize: 32,
                   color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Montserrat',
+                  fontWeight: .w600,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
               SizedBox(height: 8),
               Text(
@@ -38,10 +37,9 @@ class OnboardingScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   color: Color(0xffababab),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'Montserrat',
+                  fontWeight: .w400,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
               SizedBox(height: 32),
               SizedBox(
@@ -59,10 +57,9 @@ class OnboardingScreen extends StatelessWidget {
                   child: Text(
                     "Get Started",
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: .w600,
                       fontSize: 16,
                       color: Colors.white,
-                      fontFamily: 'Montserrat',
                     ),
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:coffee_app/constant.dart';
 import 'package:coffee_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: kFontFamily,
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
       home: SplashScreen(),
