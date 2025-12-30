@@ -1,5 +1,4 @@
 import 'package:coffee_app/constant.dart';
-import 'package:coffee_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -48,7 +47,7 @@ class OnboardingScreen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "/home");
+                    Navigator.pushReplacementNamed(context, kHome);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kPrimaryColor,

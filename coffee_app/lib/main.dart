@@ -23,10 +23,10 @@ class MyApp extends StatelessWidget {
       ),
       // home: SplashScreen(),
       routes: {
-        "/":(context) => SplashScreen(),//  / means this is the first page
-        "/onboarding": (context) => OnboardingScreen(),
-        "/home": (context) => HomeScreen(),
-        "/product-details": (context) => ProductDetails(),
+        kSplash:(context) => SplashScreen(),//  /it means this is the first page
+        kOnboarding: (context) => OnboardingScreen(),
+        kHome: (context) => HomeScreen(),
+        kProductDetails: (context) => ProductDetails(),
       },
     );
   }

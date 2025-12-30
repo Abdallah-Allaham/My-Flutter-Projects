@@ -1,7 +1,6 @@
 import 'package:coffee_app/constant.dart';
 import 'package:coffee_app/data/dummy.dart';
 import 'package:coffee_app/models/category_model.dart';
-import 'package:coffee_app/screens/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -136,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        "/product-details",
+                        kProductDetails,
                         arguments: {'product': products[index]},
                       );
                     },

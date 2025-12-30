@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:coffee_app/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../constant.dart';
@@ -18,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, "/onboarding");
+        Navigator.pushReplacementNamed(context, kOnboarding);
       }
     });
   }
