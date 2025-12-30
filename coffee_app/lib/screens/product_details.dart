@@ -181,7 +181,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           onSizeChange(size);
                         },
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: selectedSize == size
                                 ? Color(0xfff9f2ed)
@@ -191,10 +191,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   ? kPrimaryColor
                                   : Color(0xffe3e3e3),
                             ),
-                            borderRadius: BorderRadius.circular(9),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
-                            product.sizes[index],
+                            product.sizes[index].substring(0,1),
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: selectedSize == size
@@ -250,7 +250,8 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         height: 90,
         child: Row(
-          spacing: 34,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
@@ -333,7 +334,7 @@ class ProductTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Description",
+      title,
       style: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
